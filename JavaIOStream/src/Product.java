@@ -1,0 +1,54 @@
+public class Product {
+    private final String code;
+    private final String name;
+    private final double unitPrice;
+    private final int quantity;
+
+    public Product(String code, String name, double unitPrice, int quantity) {
+        if (code == null || code.isBlank()) {
+            throw new IllegalArgumentException("Mã không được rỗng");
+        }
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Tên không được rỗng");
+        }
+        if (unitPrice <= 0 || quantity < 0) {
+            throw new IllegalArgumentException("Giá hoặc số lượng không hợp lệ");
+        }
+        this.code = code;
+        this.name = name;
+        this.unitPrice = unitPrice;
+        this.quantity = quantity;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public double inventoryValue() {
+        return unitPrice * quantity;
+    }
+
+    public String toCsv() {
+        if (unitPrice == (long) unitPrice) {
+            return "%s,%s,%d,%d".formatted(code, name, (long) unitPrice, quantity);
+        }
+        return "%s,%s,%s,%d".formatted(code, name, String.valueOf(unitPrice), quantity);
+    }
+
+    @Override
+    public String toString() {
+        return "%s - %s: %,.0f VND".formatted(code, name, inventoryValue());
+    }
+}
